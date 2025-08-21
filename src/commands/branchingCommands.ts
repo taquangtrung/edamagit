@@ -8,6 +8,7 @@ import { gitRun } from '../utils/gitRawRunner';
 import MagitUtils from '../utils/magitUtils';
 import ViewUtils from '../utils/viewUtils';
 import ShowRefsView from '../views/showRefsView';
+import { magitStatus } from './statusCommands';
 
 const branchingCommands = [
   { label: 'b', description: 'Checkout', action: checkout },
@@ -159,7 +160,8 @@ async function _checkout({ repository }: MenuState, refs: Ref[]) {
 
   if (ref) {
     const args = ['checkout', ref];
-    return gitRun(repository.gitRepository, args);
+    await gitRun(repository.gitRepository, args);
+    return magitStatus();
   }
 }
 
@@ -193,8 +195,8 @@ async function _createBranch({ repository }: MenuState, checkout: boolean) {
       }
 
       args.push(newBranchName, ref);
-      return gitRun(repository.gitRepository, args);
-
+      await gitRun(repository.gitRepository, args);
+      return magitStatus();
     } else {
 
       window.setStatusBarMessage('No name given for new branch', Constants.StatusMessageDisplayTimeout);

@@ -3,6 +3,7 @@ import { MagitRepository } from '../models/magitRepository';
 import { MenuUtil, MenuState, Switch, MenuItem } from '../menu/menu';
 import { gitRun } from '../utils/gitRawRunner';
 import { PickMenuItem, PickMenuUtil } from '../menu/pickMenu';
+import { magitStatus } from './statusCommands';
 
 export async function fetching(repository: MagitRepository): Promise<any> {
 
@@ -38,7 +39,8 @@ export async function fetching(repository: MagitRepository): Promise<any> {
 async function fetchFromPushRemote({ repository, switches }: MenuState) {
   if (repository.HEAD?.pushRemote) {
     const args = ['fetch', ...MenuUtil.switchesToArgs(switches), repository.HEAD.pushRemote.remote];
-    return gitRun(repository.gitRepository, args);
+    await gitRun(repository.gitRepository, args);
+    return magitStatus();
   }
 }
 
@@ -46,7 +48,8 @@ async function fetchFromUpstream({ repository, switches }: MenuState) {
 
   if (repository.HEAD?.upstreamRemote) {
     const args = ['fetch', ...MenuUtil.switchesToArgs(switches), repository.HEAD.upstreamRemote.remote];
-    return gitRun(repository.gitRepository, args);
+    await gitRun(repository.gitRepository, args);
+    return magitStatus();
   }
 }
 
@@ -59,13 +62,15 @@ async function fetchFromElsewhere({ repository, switches }: MenuState) {
 
   if (chosenRemote) {
     const args = ['fetch', ...MenuUtil.switchesToArgs(switches), chosenRemote];
-    return gitRun(repository.gitRepository, args);
+    await gitRun(repository.gitRepository, args);
+    return magitStatus();
   }
 }
 
 async function fetchAll({ repository, switches }: MenuState) {
   const args = ['fetch', ...MenuUtil.switchesToArgs(switches), '--all'];
-  return gitRun(repository.gitRepository, args);
+  await gitRun(repository.gitRepository, args);
+  return magitStatus();
 }
 
 async function fetchAnotherBranch({ repository, switches }: MenuState) {
@@ -74,7 +79,8 @@ async function fetchAnotherBranch({ repository, switches }: MenuState) {
     const branch = await window.showInputBox({ prompt: 'Fetch branch' });
     if (branch) {
       const args = ['fetch', ...MenuUtil.switchesToArgs(switches), remote, `refs/heads/${branch}`];
-      return gitRun(repository.gitRepository, args);
+      await gitRun(repository.gitRepository, args);
+      return magitStatus();
     }
   }
 }
@@ -82,5 +88,6 @@ async function fetchAnotherBranch({ repository, switches }: MenuState) {
 export async function fetchSubmodules({ repository, switches }: MenuState) {
 
   const args = ['fetch', '--verbose', '--recurse-submodules', ...MenuUtil.switchesToArgs(switches)];
-  return gitRun(repository.gitRepository, args);
+  await gitRun(repository.gitRepository, args);
+  return magitStatus();
 }

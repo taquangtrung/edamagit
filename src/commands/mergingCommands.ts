@@ -3,6 +3,7 @@ import { MagitRepository } from '../models/magitRepository';
 import { gitRun } from '../utils/gitRawRunner';
 import * as Commit from '../commands/commitCommands';
 import MagitUtils from '../utils/magitUtils';
+import { magitStatus } from './statusCommands';
 
 const mergingMenu = {
   title: 'Merging',
@@ -108,7 +109,8 @@ async function _merge(
     args.push('--no-edit');
   }
 
-  return gitRun(repository.gitRepository, args);
+  await gitRun(repository.gitRepository, args);
+  return magitStatus();
 }
 
 async function commitMerge(menuState: MenuState) {
@@ -118,6 +120,7 @@ async function commitMerge(menuState: MenuState) {
 async function abortMerge({ repository }: MenuState) {
   if (await MagitUtils.confirmAction(`Abort merge?`)) {
     const args = ['merge', '--abort'];
-    return gitRun(repository.gitRepository, args);
+    await gitRun(repository.gitRepository, args);
+    return magitStatus();
   }
 }
