@@ -10,6 +10,8 @@ export const MagitUriScheme: string = 'magit';
 
 export const MagitDocumentSelector: DocumentSelector = { scheme: MagitUriScheme, language: 'magit' };
 
+export const MagitLogDocumentSelector: DocumentSelector = { scheme: MagitUriScheme, language: 'magit-log' };
+
 // Must match the semanticTokenTypes in package.json
 export enum SemanticTokenTypes {
   RefName = 'magit-ref-name',

@@ -405,6 +405,16 @@
           ".magit"
         ],
         "configuration": "./languages/magit.language-configuration.json"
+      },
+      {
+        "id": "magit-log",
+        "aliases": [
+          "Magit Log"
+        ],
+        "extensions": [
+          "log.magit"
+        ],
+        "configuration": "./languages/magit.language-configuration.json"
       }
     ],
     "configurationDefaults": {
@@ -412,6 +422,12 @@
         "editor.lineNumbers": "off",
         "editor.minimap.enabled": false,
         "editor.renderWhitespace": "none"
+      },
+      "[magit-log]": {
+        "editor.lineNumbers": "off",
+        "editor.minimap.enabled": false,
+        "editor.renderWhitespace": "none",
+        "editor.wordWrap": "off"
       }
     },
     "configuration": {
@@ -463,6 +479,11 @@
     "grammars": [
       {
         "language": "magit",
+        "scopeName": "source.magit",
+        "path": "./syntaxes/magit.tmGrammar.json"
+      },
+      {
+        "language": "magit-log",
         "scopeName": "source.magit",
         "path": "./syntaxes/magit.tmGrammar.json"
       }

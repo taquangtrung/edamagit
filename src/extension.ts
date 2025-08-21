@@ -126,6 +126,9 @@ export function activate(context: ExtensionContext) {
     workspace.registerTextDocumentContentProvider(Constants.MagitUriScheme, contentProvider),
     languages.registerDocumentHighlightProvider(Constants.MagitDocumentSelector, highlightProvider),
     languages.registerDocumentSemanticTokensProvider(Constants.MagitDocumentSelector, semanticTokensProvider, semanticTokensProvider.legend),
+
+    languages.registerDocumentHighlightProvider(Constants.MagitLogDocumentSelector, highlightProvider),
+    languages.registerDocumentSemanticTokensProvider(Constants.MagitLogDocumentSelector, semanticTokensProvider, semanticTokensProvider.legend),
   );
   context.subscriptions.push(
     contentProvider,
