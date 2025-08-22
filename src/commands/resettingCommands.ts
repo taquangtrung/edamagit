@@ -3,6 +3,7 @@ import { MagitRepository } from '../models/magitRepository';
 import { gitRun } from '../utils/gitRawRunner';
 import MagitUtils from '../utils/magitUtils';
 import { window } from 'vscode';
+import { magitStatus } from './statusCommands';
 
 const resettingMenu = {
   title: 'Resetting',
@@ -34,7 +35,8 @@ async function resetWorktree({ repository }: MenuState) {
 
   if (ref) {
     const args = ['checkout-index', '--all', '--force'];
-    return await gitRun(repository.gitRepository, args);
+    await gitRun(repository.gitRepository, args);
+    return magitStatus();
   }
 }
 
@@ -45,6 +47,7 @@ async function _reset(repository: MagitRepository, switches: string[], prompt: s
   if (ref) {
 
     const args = ['reset', ...switches, ref];
-    return await gitRun(repository.gitRepository, args);
+    await gitRun(repository.gitRepository, args);
+    return magitStatus();
   }
 }
