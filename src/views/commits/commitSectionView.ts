@@ -6,6 +6,7 @@ import GitTextUtils from '../../utils/gitTextUtils';
 import { SemanticTextView, Token } from '../general/semanticTextView';
 import { SemanticTokenTypes } from '../../common/constants';
 import ViewUtils from '../../utils/viewUtils';
+import { gitTime } from '../../utils/timeUtils';
 
 export class CommitSectionView extends View {
   isFoldable = true;
@@ -30,6 +31,8 @@ export class CommitItemView extends SemanticTextView {
     this.content = [
       `${qualifier !== undefined ? qualifier + ' ' : ''}${GitTextUtils.shortHash(commit.hash)} `,
       ...ViewUtils.generateRefTokensLine(commit.hash, refs),
-      `${GitTextUtils.shortCommitMessage(commit.message)}`];
+      `${GitTextUtils.shortCommitMessage(commit.message)}`,
+      ` (${commit.authorName}, ${commit.authorDate ? gitTime(commit.authorDate) : 'unknown time'})`
+    ];
   }
 }
