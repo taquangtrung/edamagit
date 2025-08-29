@@ -92,7 +92,7 @@ export async function internalMagitStatus(repository: Repository): Promise<Magit
 
   const untrackedFiles: MagitChange[] =
     repository.state.workingTreeChanges.length > workingTreeChanges_NoUntracked.length ?
-      (await gitRun(repository, ['ls-files', '--others', '--exclude-standard', '--directory', '--no-empty-directory'], {}, LogLevel.None, false))
+      (await gitRun(repository, ['ls-files', '--others', '--exclude-standard', '--no-empty-directory'], {}, LogLevel.None, false))
         .stdout
         .replace(Constants.FinalLineBreakRegex, '')
         .split(Constants.LineSplitterRegex)
@@ -241,10 +241,10 @@ async function pushRemoteStatus(repository: Repository): Promise<MagitUpstreamRe
       const pushRemoteCommit = refs.find(ref => ref.remote === pushRemote && ref.name === `${pushRemote}/${HEAD.name}`)?.commit;
       const pushRemoteCommitDetails = pushRemoteCommit ? getCommit(repository, pushRemoteCommit) : Promise.resolve(undefined);
 
-      return { 
-        remote: pushRemote, 
-        name: HEAD.name, 
-        commit: await pushRemoteCommitDetails, 
+      return {
+        remote: pushRemote,
+        name: HEAD.name,
+        commit: await pushRemoteCommitDetails,
         ahead: await ahead,
         behind: await behind,
       };
@@ -439,7 +439,7 @@ async function getStashes(repository: Repository): Promise<Stash[]> {
 }
 
 async function getRefs(repository: Repository): Promise<Ref[]> {
-  // `repository.getRefs` is not available on older versions and we should 
+  // `repository.getRefs` is not available on older versions and we should
   // just use `repository.state.refs` on those versions.
   if (typeof repository.getRefs !== 'function') {
     return repository.state.refs;
